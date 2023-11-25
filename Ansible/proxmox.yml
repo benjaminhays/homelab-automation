@@ -1,0 +1,27 @@
+- hosts: proxmox
+  remote_user: root
+  tasks:
+    - name: Adding ansible SSH Pubkey as authorized
+      copy:
+        src: ~/.ssh/authorized_keys
+        dest: /root/.ssh/authorized_keys
+    
+    - name: adding PVE-no-subscription repo
+      blockinfile:
+        path: /etc/apt/sources.list
+        insertbefore: "^# security"
+        block: |
+          # PVE pve-no-subscription repository provided by proxmox.com,
+          # NOT recommended for production use
+          deb http://download.proxmox.com/debian/pve bullseye pve-no-subscription
+
+    - name: upgrading system
+      apt:
+        upgrade: full
+        update_cache: yes
+        cache_valid_time: 7200
+
+    - name: installing sudo
+      apt:
+        name: sudo
+        state: present

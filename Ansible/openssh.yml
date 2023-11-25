@@ -1,0 +1,16 @@
+- hosts: linux
+  remote_user: root
+  tasks:
+  - name: Update/install OpenSSH
+    apt: 
+      name: openssh-server
+      state: latest
+      update_cache: yes
+  - name: Copy Secure Configuration File
+    copy:
+      src: ../Configs/sshd_config
+      dest: /etc/ssh/sshd_config
+  - name: Restart OpenSSH
+    systemd_service:
+      name: sshd
+      state: restarted

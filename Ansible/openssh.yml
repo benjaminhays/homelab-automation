@@ -1,11 +1,31 @@
 - hosts: linux
   remote_user: root
+  become: true
+  become_user: root
   tasks:
   - name: Update/install OpenSSH
     apt: 
       name: openssh-server
       state: latest
       update_cache: yes
+  - name: Add 'bhays' user
+    user:
+      name: bhays
+      groups: sudo
+      append: yes
+      comment: Benjamin Hays
+  - name: Update/install Sudo
+    apt:
+      name: sudo
+      state: latest
+  - name: Ensure .ssh user folder exists
+    file: 
+      path: "/home/bhays/.ssh/"
+      state: directory
+  - name: Copy public key
+    copy:
+     src: ~/.ssh/authorized_keys
+     dest: /home/bhays/.ssh/authorized_keys
   - name: Copy Secure Configuration File
     copy:
       src: ../Configs/sshd_config

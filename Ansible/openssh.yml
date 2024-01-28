@@ -1,5 +1,5 @@
 - hosts: linux
-  remote_user: root
+  remote_user: bhays
   become: true
   become_user: root
   tasks:

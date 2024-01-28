@@ -1,0 +1,18 @@
+- hosts: linux
+  remote_user: bhays
+  become: true
+  become_user: root
+  tasks:
+  - name: Update/install Fail2Ban
+    apt: 
+      name: fail2ban
+      state: latest
+      update_cache: yes
+  - name: Copy Secure Configuration File
+    copy:
+      src: ../Configs/jail.local
+      dest: /etc/fail2ban/jail.local
+  - name: Restart Fail2Ban
+    systemd_service:
+      name: fail2ban
+      state: restarted

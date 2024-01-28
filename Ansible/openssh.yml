@@ -11,8 +11,9 @@
   - name: Add 'bhays' user
     user:
       name: bhays
-      groups: sudo
+      groups: sudo,adm
       append: yes
+      shell: /bin/bash
       comment: Benjamin Hays
   - name: Update/install Sudo
     apt:

@@ -1,0 +1,69 @@
+- hosts: arch
+  remote_user: bhays
+  become: true
+  become_user: root
+  tasks:
+  - name: Add 'bhays' user
+    user:
+      name: bhays
+      groups: sudo,adm
+      append: yes
+      shell: /bin/bash
+      comment: Benjamin Hays
+  - name: Ensure .ssh user folder exists
+    file: 
+      path: "/home/bhays/.ssh/"
+      state: directory
+  - name: Copy public key
+    copy:
+     src: ~/.ssh/authorized_keys
+     dest: /home/bhays/.ssh/authorized_keys
+  - name: Install i3
+    pacman:
+      name: i3
+      state: present
+  - name: Install polybar
+      pacman:
+        name: polybar
+        state: present
+  - name: Install xorg
+    pacman:
+        name: xorg
+        state: present
+  - name: Install lightdm
+    pacman:
+        name: lightdm
+        state: present
+  - name: Install lightdm-gtk-greeter
+    pacman:
+        name: lightdm-gtk-greeter
+        state: present
+  - name: Copy polybar config.ini
+      copy:
+        src: ../Configs/archlinux/polybar-config.ini
+        dest: /home/bhays/.config/polybar/config.ini
+  - name: Copy polybar launch.sh
+      copy:
+        src: ../Configs/archlinux/launch.sh
+        dest: /home/bhays/.config/polybar/launch.sh
+  - name: Copy i3 config
+      copy:
+        src: ../Configs/archlinux/i3-config
+        dest: /home/bhays/.config/i3/config
+  - name: Copy Alacritty config
+      copy:
+        src: ../Configs/archlinux/alacritty.toml
+        dest: /home/bhays/.config/alacritty/alacritty.toml
+  - name: Add BlackArch repository
+      shell: |
+        curl -O https://blackarch.org/strap.sh
+        chmod +x strap.sh
+        sudo ./strap.sh
+  - name: Enable multilib repository
+      lineinfile:
+        path: /etc/pacman.conf
+        regexp: '^#\[multilib\]'
+        line: '[multilib]'
+  - name: Update system
+      pacman:
+        upgrade: yes

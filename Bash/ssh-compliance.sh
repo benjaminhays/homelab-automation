@@ -1,7 +1,7 @@
 #!/bin/sh
 
 if [ "$#" -eq 0 ]; then
-    echo "Usage: $0 (--install-deps) (--docker) <file-with-hosts>"
+    echo "Usage: $0 (--install-deps) <file-with-hosts>"
     exit 1
 fi
 
@@ -23,18 +23,6 @@ if [ "$1" = "--install-deps" ]; then
     filename="$2"
 else
     filename="$1"
-fi
-
-if [ "$1" = "--docker" ]; then
-    echo "[-] Pulling Image"
-    sudo docker pull positronsecurity/ssh-audit
-
-    echo "[-] Running Image"
-    docker run -it -p 2222:2222 positronsecurity/ssh-audit
-
-    echo "[+] SSH Audit Server Accessible at Port 2222"
-
-    exit 0
 fi
 
 if [ ! -f "$filename" ]; then

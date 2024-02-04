@@ -1,4 +1,4 @@
-# Based on https://infosec.mozilla.org/guidelines/openssh secure configuration guide
+# Based on https://infosec.mozilla.org/guidelines/openssh and further cipher hardening
 
 Include /etc/ssh/sshd_config.d/*.conf
 

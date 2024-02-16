@@ -9,7 +9,7 @@
       tags: docker
     - name: Install Docker
       apt:
-        name: docker
+        name: docker-compose
         state: latest
       tags: docker
     - name: Ensure Docker service is enabled and started

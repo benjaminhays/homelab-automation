@@ -23,4 +23,4 @@ else
     cidr="$1"
 fi
 
-nmap -sS -T4 -A $cidr -oN nmap.log
+nmap -sS -T4 -A $cidr -oN nmap.log -oX nmap.xml

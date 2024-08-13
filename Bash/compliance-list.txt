@@ -1,5 +1,4 @@
-10.0.1.2
-10.0.1.12
-10.0.1.13
-10.0.1.14
-10.0.1.15
+devops.benhays.cloud
+wiki.benhays.cloud
+tailscale.benhays.cloud
+web.benhays.cloud

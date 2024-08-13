@@ -2,7 +2,7 @@ name: ansible-lint
 on: [push]
 jobs:
   build:
-    name: Ansible Lint 
+    name: Ansible Lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

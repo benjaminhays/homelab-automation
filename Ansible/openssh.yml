@@ -31,7 +31,9 @@
     copy:
       src: ../Configs/sshd_config
       dest: /etc/ssh/sshd_config
+  
   - name: Restart OpenSSH
-    systemd_service:
+    systemd:
       name: sshd
       state: restarted
+

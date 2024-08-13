@@ -1,18 +1,21 @@
-- hosts: linux
+---
+- name: Fail2ban Configuration
+  hosts: linux
   remote_user: bhays
   become: true
   become_user: root
   tasks:
-  - name: Update/install Fail2Ban
-    apt: 
-      name: fail2ban
-      state: latest
-      update_cache: yes
-  - name: Copy Secure Configuration File
-    copy:
-      src: ../Configs/jail.local
-      dest: /etc/fail2ban/jail.local
-  - name: Restart Fail2Ban
-    systemd_service:
-      name: fail2ban
-      state: restarted
+    - name: Update/install Fail2Ban
+      ansible.builtin.apt:
+        name: fail2ban
+        state: latest
+        update_cache: true
+    - name: Copy Secure Configuration File
+      ansible.builtin.copy:
+        mode: "0664"
+        src: ../Configs/jail.local
+        dest: /etc/fail2ban/jail.local
+    - name: Restart Fail2Ban
+      ansible.builtin.systemd:
+        name: fail2ban
+        state: restarted

@@ -1,39 +1,45 @@
-- hosts: linux
+- name: OpenSSH Configuration Playbook
+  hosts: linux
   remote_user: bhays
   become: true
   become_user: root
   tasks:
-  - name: Update/install OpenSSH
-    apt: 
-      name: openssh-server
-      state: latest
-      update_cache: yes
-  - name: Add 'bhays' user
-    user:
-      name: bhays
-      groups: sudo,adm
-      append: yes
-      shell: /bin/bash
-      comment: Benjamin Hays
-  - name: Update/install Sudo
-    apt:
-      name: sudo
-      state: latest
-  - name: Ensure .ssh user folder exists
-    file: 
-      path: "/home/bhays/.ssh/"
-      state: directory
-  - name: Copy public key
-    copy:
-     src: ~/.ssh/authorized_keys
-     dest: /home/bhays/.ssh/authorized_keys
-  - name: Copy Secure Configuration File
-    copy:
-      src: ../Configs/sshd_config
-      dest: /etc/ssh/sshd_config
-  
-  - name: Restart OpenSSH
-    systemd:
-      name: sshd
-      state: restarted
-
+    - name: Update/install OpenSSH
+      ansible.builtin.apt:
+        name: openssh-server
+        state: latest
+        update_cache: true
+    - name: Add 'bhays' user
+      ansible.builtin.user:
+        name: bhays
+        groups: sudo,adm
+        append: true
+        shell: /bin/bash
+        comment: Benjamin Hays
+    - name: Update/install Sudo
+      ansible.builtin.apt:
+        name: sudo
+        state: latest
+    - name: Ensure .ssh user folder exists
+      ansible.builtin.file:
+        path: "/home/bhays/.ssh/"
+        owner: bhays
+        group: bhays
+        mode: "0600"
+        state: directory
+    - name: Copy public key
+      ansible.builtin.copy:
+        owner: bhays
+        mode: "0600"
+        src: ~/.ssh/authorized_keys
+        dest: /home/bhays/.ssh/authorized_keys
+    - name: Copy Secure Configuration File
+      ansible.builtin.copy:
+        owner: bhays
+        mode: "0600"
+        src: ../Configs/sshd_config
+        dest: /etc/ssh/sshd_config
+    - name: Restart OpenSSH
+      ansible.builtin.systemd:
+        name: sshd
+        state: restarted

@@ -1,0 +1,18 @@
+---
+- name: Debian Hardening
+  hosts: linux
+  remote_user: bhays
+  become: true
+  become_user: root
+  tasks:
+    - name: Update/install Debian Utilities
+      ansible.builtin.apt:
+        name:
+          - "apt-listchanges"
+          - "needrestart"
+          - "libpam-tmpdir"
+          - "debsums"
+          - "apt-show-versions"
+        state: latest
+        update_cache: true
+    # TODO: Harden /etc/protocols, PAM configuration, /etc/login.defs, pam_cracklib, auto upgrades, banner to /etc/issue, auditd/sysstat, chkrootkit

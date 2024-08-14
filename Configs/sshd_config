@@ -15,8 +15,12 @@ LogLevel VERBOSE
 
 AuthenticationMethods publickey
 
-MaxAuthTries 5
-MaxSessions 8
+MaxAuthTries 3
+MaxSessions 2
+
+Compression no
+TCPKeepAlive no
+ClientAliveCountMax 2
 
 PubkeyAuthentication yes
 

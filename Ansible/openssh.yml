@@ -25,7 +25,7 @@
         path: "/home/bhays/.ssh/"
         owner: bhays
         group: bhays
-        mode: "0600"
+        mode: "0770"
         state: directory
     - name: Copy public key
       ansible.builtin.copy:

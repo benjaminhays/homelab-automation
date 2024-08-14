@@ -19,3 +19,8 @@
       ansible.builtin.systemd:
         name: fail2ban
         state: restarted
+    - name: Disable Postfix
+      ansible.builtin.systemd:
+        name: postfix
+        state: stopped
+        enabled: false
